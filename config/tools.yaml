@@ -1,0 +1,23 @@
+---
+git:
+  url: "https://github.com/git-for-windows/git/releases/download/v2.10.1.windows.1/PortableGit-2.10.1-64-bit.7z.exe"
+conemu:
+  url: "https://github.com/Maximus5/ConEmu/releases/download/v16.10.09a/ConEmuPack.161009a.7z"
+atom:
+  url: "https://github.com/atom/atom/releases/download/v1.11.2/atom-windows.zip"
+  plugins: 
+    atom-beautify: ""
+    minimap: ""
+    line-ending-converter: ""
+    language-chef: ""
+    language-batchfile: ""
+ruby:
+  url: "http://dl.bintray.com/oneclick/rubyinstaller/ruby-2.3.1-i386-mingw32.7z"
+ruby-devkit:
+  url: "http://dl.bintray.com/oneclick/rubyinstaller/DevKit-mingw64-32-4.7.2-20130224-1151-sfx.exe"
+terraform:
+  url: "https://releases.hashicorp.com/terraform/0.7.7/terraform_0.7.7_windows_amd64.zip"
+wget: 
+  url: "https://eternallybored.org/misc/wget/releases/wget-1.18-win64.zip"
+aws-cli:
+  url: "https://s3.amazonaws.com/aws-cli/AWSCLI64.msi"
