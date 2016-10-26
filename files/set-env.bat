@@ -36,9 +36,9 @@ set VBOX_USER_HOME=%USERPROFILE%
 :: add recent root certificates to prevent SSL errors on Windows, see:
 :: https://gist.github.com/fnichol/867550
 set SSL_CERT_FILE=%HOME%\cacert.pem
+set PATH=%SCRIPTSDIR%;%RUBYDIR%\bin;%TERRAFORMDIR%;%GNUDIR%;%AWSDIR%;%GITDIR%\cmd;%GITDIR%;%KDIFF3DIR%;%CONEMUDIR%;%ATOMDIR%;%APMDIR%;%PUTTYDIR%;%VBOX_MSI_INSTALL_PATH%;%VBOX_INSTALL_PATH%;%WINPATHS%
 :: set %RI_DEVKIT$ env var and add DEVKIT to the PATH
 call %DEVKITDIR%\devkitvars.bat
-set PATH=%SCRIPTSDIR%;%RUBYDIR%\bin;%TERRAFORMDIR%;%GNUDIR%;%AWSDIR%;%GITDIR%\cmd;%GITDIR%;%KDIFF3DIR%;%CONEMUDIR%;%ATOMDIR%;%APMDIR%;%PUTTYDIR%;%VBOX_MSI_INSTALL_PATH%;%VBOX_INSTALL_PATH%;%WINPATHS%
 
 :: command aliases
 @doskey vi=atom.cmd $*
