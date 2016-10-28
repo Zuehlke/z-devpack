@@ -3,7 +3,7 @@ require "yaml"
 
 module DevPack
   module EnvironmentOptions
-    BASE_DIR = File.expand_path(File.dirname(__FILE__),"..")
+    BASE_DIR = File.expand_path(File.join(File.dirname(__FILE__),".."))
     VERSION = '1.0'
     def version
       ver=ENV["VERSION"]
@@ -13,9 +13,13 @@ module DevPack
     def base_dir
       return BASE_DIR
     end
+    def out_dir
+      ddir=ENV["OUT_DIR"]
+      ddir||=File.join(base_dir,"out")
+      File.expand_path(ddir)
+    end
     def build_dir
-      ddir=ENV["BUILD_DIR"]
-      ddir||=File.join(base_dir,"build")
+      ddir=File.join(out_dir,"pkg")
       File.expand_path(ddir)
     end
     def tools_dir
@@ -25,7 +29,7 @@ module DevPack
     end
     def cache_dir
       ddir=ENV["CACHE_DIR"]
-      ddir||=File.join(base_dir,"cache")
+      ddir||=File.join(out_dir,"cache")
       File.expand_path(ddir)
     end
     def config_dir
@@ -60,7 +64,7 @@ module DevPack
   end
 
   def tool_config tool_name
-    devpack_config.fethc(tool_name,{})
+    devpack_config.fetch(tool_name,{})
   end
 
   def create_devpack_structure
@@ -83,7 +87,7 @@ module DevPack
   end
 
   def generate_docs
-    Dir.glob("#{base_dir}/*.md").each do |md_file|
+    Dir.glob("#{base_dir}/doc/*.md").each do |md_file|
       html = MarkIt.to_html(IO.read(md_file))
       outfile = "#{build_dir}/_#{File.basename(md_file, '.md')}.html"
       File.open(outfile, 'w') {|f| f.write(html) }
@@ -91,7 +95,7 @@ module DevPack
   end
   
   def assemble devpack_name
-    pack(build_dir, "#{devpack_name}-#{version}.7z")
+    pack(out_dir, "#{devpack_name}-#{version}.7z")
   end
 
   def clean_cache

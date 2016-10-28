@@ -67,6 +67,21 @@ def reset_git_user
     fail "resetting dummy git user failed" unless system(command)
   end
 end
+def install_gems ruby_config
+  commands = ["cd /D #{build_dir}","mount-drive.cmd","#{build_dir}/set-env.bat"]
+  ruby_config.fetch("gems",{}).each do |name,ver|
+    commands<<"gem install #{name} --version \"#{ver}\""
+  end
+  begin
+    Bundler.with_clean_env do
+     command = commands.join(" && ")
+     fail "gem installation failed" unless system(command)
+    end
+  ensure
+    system("cd /D #{build_dir}")
+    system("unmout-drive.cmd")
+  end
+end
 
 namespace :devpack do
   desc 'Clean the build output directory'
@@ -81,13 +96,17 @@ namespace :devpack do
   desc 'Download required resources and build the devpack'
   task :build  do
     create_devpack_structure
-    download_tools
+    download_tools(devpack_config)
     fix_tools(devpack_config)
     copy_files
+    if has_tool?("ruby")
+      install_gems(tool_config("ruby"))
+    end
     generate_docs
     if has_tool?("atom")
       install_atom_plugins(tool_config("atom"))
     end
+    puts "Done!"
   end
   desc 'Run integration tests'
   task :test do
@@ -95,6 +114,6 @@ namespace :devpack do
   end
   desc 'Creates the devpack .7z package'
   task :package do
-    assemble
+    assemble("z-devpack")
   end
 end
