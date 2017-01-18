@@ -39,7 +39,9 @@ module DevPack
     end
     def zip_exe
       zip=ENV["ZIP_EXE"]
+      puts "ZIP_EXE not set, using default of 'C:\\Program Files\\7-Zip\\7z.exe'" unless zip
       zip||='C:\Program Files\7-Zip\7z.exe'
+      ENV["ZIP_EXE"]=File.expand_path(zip)
       return File.expand_path(zip)
     end
     def verbose
@@ -177,9 +179,13 @@ module DevPack
     puts "extracting '#{archive}' to '#{target_dir}'"
     case File.extname(archive)
     when '.zip', '.7z', '.exe'
-      system("\"#{zip_exe}\" x -o\"#{target_dir}\" -y \"#{archive}\" -r #{includes.join(' ')} 1> NUL")
+      begin
+        sh("\"#{zip_exe}\" x -o\"#{target_dir}\" -y \"#{archive}\" -r #{includes.join(' ')} 1> NUL")
+      rescue
+        raise "Upacking failed with #{$!.message}.\nPerhaps 7-zip is not on the PATH or ZIP_EXE is not defined?" 
+      end
     when '.msi'
-      system("start /wait msiexec /a \"#{archive.gsub('/', '\\')}\" /qb TARGETDIR=\"#{target_dir.gsub('/', '\\')}\"")
+      sh("start /wait msiexec /a \"#{archive.gsub('/', '\\')}\" /qb TARGETDIR=\"#{target_dir.gsub('/', '\\')}\" INSTALLDIR=TARGETDIR=\"#{target_dir.gsub('/', '\\')}\" APPDIR=TARGETDIR=\"#{target_dir.gsub('/', '\\')}\"")
     else
       raise "don't know how to unpack '#{archive}'"
     end
