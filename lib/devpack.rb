@@ -185,7 +185,7 @@ module DevPack
         raise "Upacking failed with #{$!.message}.\nPerhaps 7-zip is not on the PATH or ZIP_EXE is not defined?" 
       end
     when '.msi'
-      sh("start /wait msiexec /a \"#{archive.gsub('/', '\\')}\" /qb TARGETDIR=\"#{target_dir.gsub('/', '\\')}\" INSTALLDIR=TARGETDIR=\"#{target_dir.gsub('/', '\\')}\" APPDIR=TARGETDIR=\"#{target_dir.gsub('/', '\\')}\"")
+      sh("start /wait msiexec /a \"#{archive.gsub('/', '\\')}\" /qb TARGETDIR=\"#{target_dir.gsub('/', '\\')}\" INSTALLDIR=\"#{target_dir.gsub('/', '\\')}\" APPDIR=\"#{target_dir.gsub('/', '\\')}\"")
     else
       raise "don't know how to unpack '#{archive}'"
     end
