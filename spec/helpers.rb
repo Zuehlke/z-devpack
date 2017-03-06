@@ -10,7 +10,7 @@ end
 
 module Helpers
   def build_dir
-    File.expand_path(File.join(File.dirname(__FILE__),"..",'build'))
+    File.expand_path(File.join(File.dirname(__FILE__),"..",'out', 'pkg'))
   end
   # sets the environment via set-env.bat before running the command
   # and returns whatever the cmd writes (captures both stdout and stderr)
