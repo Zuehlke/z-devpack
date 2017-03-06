@@ -110,7 +110,9 @@ namespace :devpack do
   end
   desc 'Run integration tests'
   task :test do
-    run_integration_tests
+    Bundler.with_clean_env do
+      sh "rspec spec/integration -fd -c"
+    end
   end
   desc 'Creates the devpack .7z package'
   task :package do
